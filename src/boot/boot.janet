@@ -280,6 +280,22 @@
   (array/concat accum body)
   (tuple/slice accum 0))
 
+(defmacro letv
+  ``Create a scope and bind values to symbols. Each pair in `bindings` is
+  assigned as if with `var`, and the body of the `letv` form returns the last
+  value.``
+  [bindings & body]
+  (if (odd? (length bindings)) (error "expected even number of bindings to letv"))
+  (def len (length bindings))
+  (var i 0)
+  (var accum @['do])
+  (while (< i len)
+    (def {i k (+ i 1) v} bindings)
+    (array/push accum (tuple 'var k v))
+    (+= i 2))
+  (array/concat accum body)
+  (tuple/slice accum 0))
+
 (defmacro try
   ``Try something and catch errors. `body` is any expression,
   and `catch` should be a form, the first element of which is a tuple. This tuple
