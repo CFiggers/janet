@@ -28,6 +28,13 @@
 (assert (= (let [[a [c d] b] @[1 (tuple 4 3) 2]] (+ a b c d)) 10)
         "double destructured let")
 
+
+# Letv
+(assert (= (letv [a 1 b 2] (+ a b)) 3) "simple letv")
+(assert (= (letv [[a b] @[1 2]] (+ a b)) 3) "destructured letv")
+(assert (= (letv [[a [c d] b] @[1 (tuple 4 3) 2]] (+ a b c d)) 10)
+        "double destructured letv")
+
 # Macros
 # b305a7c
 (defn dub [x] (+ x x))
